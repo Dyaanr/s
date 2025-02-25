@@ -55,6 +55,7 @@
     <!-- START DATA -->
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h1>Data Pegawai</h1>
+        {{$dataEmployees->links()}}
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -66,19 +67,22 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($dataEmployees as $key => $value)
+                
                 <tr>
-                    <td>1</td>
-                    <td>alok</td>
-                    <td>alok@gmail.com</td>
-                    <td>jalan jalan no 45</td>
+                    <td>{{ $dataEmployees->firstItem() + $key }}</td>
+                    <td>{{ $value->nama }}</td>
+                    <td>{{ $value->email }}</td>
+                    <td>{{ $value->alamat }}</td>
                     <td>
                         <a href="" class="btn btn-warning btn-sm">Edit</a>
                         <a href="" class="btn btn-danger btn-sm">Del</a>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
-
+        {{$dataEmployees->links()}}
     </div>
     <!-- AKHIR DATA -->
 </div>

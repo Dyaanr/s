@@ -78,7 +78,11 @@
         @endif
 
         {{$dataEmployees->links()}}
+<<<<<<< HEAD
         <table class="table table-striped table-sortable">
+=======
+        <table class="table table-striped">
+>>>>>>> 5ed782f517adc1e168e55f4be398d4563317bf11
             <thead>
                 <tr>
                     <th></th>
@@ -136,4 +140,8 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> 5ed782f517adc1e168e55f4be398d4563317bf11

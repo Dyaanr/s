@@ -41,11 +41,24 @@
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
-                    <button 
+                    @if ($UpdateData == false)
+                    <button
                     type="button"
-                     class="btn btn-primary" 
-                     name="submit"
-                      wire:click="store()">SIMPAN</button>
+                        class="btn btn-primary"
+                        name="submit"
+                        wire:click="store()">SIMPAN</button>
+                    @else
+                    <button
+                    type="button"
+                        class="btn btn-primary"
+                        name="submit"
+                        wire:click="update()">UPDATE</button>
+                    @endif
+                    <button
+                    type="button"
+                        class="btn btn-secondary"
+                        name="submit"
+                        wire:click="clear()">Clear</button>
                 </div>
             </div>
         </form>
@@ -55,30 +68,72 @@
     <!-- START DATA -->
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h1>Data Pegawai</h1>
-        <table class="table table-striped">
+        <div class="pb-3 pt-3">
+            <input type="text" class="form-control mb-3 w-25" placeholder="Search..." wire:model.live="katakunci">
+        </div>
+
+        @if ($employee_selected_id)
+        <a wire:click="delete_confirmation('')"class="btn btn-danger btn-sm mb-3"
+            data-bs-toggle="modal" data-bs-target="#exampleModal">Del {{ count($employee_selected_id) }}data</a>
+        @endif
+
+        {{$dataEmployees->links()}}
+        <table class="table table-striped table-sortable">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="col-md-1">No</th>
-                    <th class="col-md-4">Nama</th>
-                    <th class="col-md-3">Email</th>
-                    <th class="col-md-2">Alamat</th>
+                    <th class="col-md-4 sort @if($sortColumn=='nama') {{ $sortDirection }} @endif"  
+                    wire:click="sort('nama')">Nama</th>
+                    <th class="col-md-3 sort  @if($sortColumn=='email') {{ $sortDirection }} @endif"
+                    wire:click="sort('email')">Email</th>
+                    <th class="col-md-2 sort  @if($sortColumn=='alamat') {{ $sortDirection }} @endif"
+                    wire:click="sort('alamat')">Alamat</th>
                     <th class="col-md-2">Aksi</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach ($dataEmployees as $key => $value)
+
                 <tr>
-                    <td>1</td>
-                    <td>alok</td>
-                    <td>alok@gmail.com</td>
-                    <td>jalan jalan no 45</td>
+                    <td><input type="checkbox" wire:key="{{ $value->id }}" value="{{ $value->id }}"wire:model.live="employee_selected_id"></td>
+                    <td>{{ $dataEmployees->firstItem() + $key }}</td>
+                    <td>{{ $value->nama }}</td>
+                    <td>{{ $value->email }}</td>
+                    <td>{{ $value->alamat }}</td>
                     <td>
-                        <a href="" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="" class="btn btn-danger btn-sm">Del</a>
+                        <a wire:click= "edit({{ $value->id }})"class="btn btn-warning btn-sm">Edit</a>
+                        <a wire:click="delete_confirmation({{ $value->id }})"class="btn btn-danger btn-sm"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">Del</a>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
-
+        {{$dataEmployees->links()}}
     </div>
     <!-- AKHIR DATA -->
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Delete</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Yakin akan menghapus data ini?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">tidak</button>
+          <button type="button" class="btn btn-primary"wire:click="delete()" data-bs-dismiss="modal">yoi</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

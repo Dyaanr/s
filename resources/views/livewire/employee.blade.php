@@ -42,21 +42,21 @@
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                     @if ($UpdateData == false)
-                    <button 
+                    <button
                     type="button"
-                        class="btn btn-primary" 
+                        class="btn btn-primary"
                         name="submit"
                         wire:click="store()">SIMPAN</button>
                     @else
-                    <button 
+                    <button
                     type="button"
-                        class="btn btn-primary" 
+                        class="btn btn-primary"
                         name="submit"
                         wire:click="update()">UPDATE</button>
                     @endif
-                    <button 
+                    <button
                     type="button"
-                        class="btn btn-secondary" 
+                        class="btn btn-secondary"
                         name="submit"
                         wire:click="clear()">Clear</button>
                 </div>
@@ -68,6 +68,9 @@
     <!-- START DATA -->
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h1>Data Pegawai</h1>
+        <div class="pb-3 pt-3">
+            <input type="text" class="form-control mb-3 w-25" placeholder="Search..." wire:model.live="katakunci">
+        </div>
         {{$dataEmployees->links()}}
         <table class="table table-striped">
             <thead>
@@ -81,7 +84,7 @@
             </thead>
             <tbody>
                 @foreach ($dataEmployees as $key => $value)
-                
+
                 <tr>
                     <td>{{ $dataEmployees->firstItem() + $key }}</td>
                     <td>{{ $value->nama }}</td>
@@ -89,7 +92,7 @@
                     <td>{{ $value->alamat }}</td>
                     <td>
                         <a wire:click= "edit({{ $value->id }})"class="btn btn-warning btn-sm">Edit</a>
-                        <a wire:click="delete_confirmation({{ $value->id }})"class="btn btn-danger btn-sm" 
+                        <a wire:click="delete_confirmation({{ $value->id }})"class="btn btn-danger btn-sm"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">Del</a>
                     </td>
                 </tr>
@@ -103,7 +106,7 @@
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Launch demo modal
   </button>
-  
+
   <!-- Modal -->
   <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
